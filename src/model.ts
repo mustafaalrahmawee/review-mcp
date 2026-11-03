@@ -6,9 +6,9 @@ import { isAbsolute, join } from "node:path";
 const TIMEOUT_MS = 15 * 60 * 1000;
 const REASONING_EFFORT = "high";
 
-export type CodexOptions = { model: string; cwd?: string };
+export type ModelOptions = { model: string; cwd?: string };
 
-export async function askCodex(prompt: string, { model, cwd }: CodexOptions): Promise<string> {
+export async function askModel(prompt: string, { model, cwd }: ModelOptions): Promise<string> {
   if (cwd !== undefined) {
     let isDirectory = false;
     try {
