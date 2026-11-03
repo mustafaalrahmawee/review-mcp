@@ -1,7 +1,7 @@
 import { spawn } from "node:child_process";
-import { mkdtemp, readFile, rm } from "node:fs/promises";
+import { mkdtemp, readFile, rm, stat } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { isAbsolute, join } from "node:path";
 
 const TIMEOUT_MS = 15 * 60 * 1000;
 const REASONING_EFFORT = "high";
@@ -9,6 +9,17 @@ const REASONING_EFFORT = "high";
 export type CodexOptions = { model: string; cwd?: string };
 
 export async function askCodex(prompt: string, { model, cwd }: CodexOptions): Promise<string> {
+  if (cwd !== undefined) {
+    let isDirectory = false;
+    try {
+      isDirectory = isAbsolute(cwd) && (await stat(cwd)).isDirectory();
+    } catch {
+      isDirectory = false;
+    }
+    if (!isDirectory) {
+      throw new Error(`Kein vorhandener Ordner mit absolutem Pfad: ${cwd}. Gib das Wurzelverzeichnis des Projekts an, etwa /home/musta/projects/job-match.`);
+    }
+  }
   const workdir = await mkdtemp(join(tmpdir(), "review-mcp-"));
   const outFile = join(workdir, "answer.txt");
   try {
