@@ -7,7 +7,7 @@ import { askModel } from "./model.ts";
 import { buildReviewPrompt } from "./prompt.ts";
 
 const BOOK_PATH = process.env.BOOK_PATH ?? "/mnt/c/Users/musta/Documents/books/AI Agents with MCP.md";
-const REVIEW_ANCHOR_MODEL = "gpt-6-astra";
+const REVIEW_ANCHOR_MODEL = "gpt-6.1-sol";
 const REVIEW_PROMPT_MODEL = "gpt-6.1-sol";
 const PROMPT_REVIEWER = new URL("../reviewers/prompt.md", import.meta.url);
 
